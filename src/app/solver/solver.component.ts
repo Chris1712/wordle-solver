@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import {WordService} from "../word.service";
 
 @Component({
   selector: 'app-solver',
   templateUrl: './solver.component.html',
-  styleUrls: ['./solver.component.css']
+  styleUrls: ['./solver.component.css'],
+  providers: [ WordService ]
 })
 export class SolverComponent implements OnInit {
 
-  constructor() { }
+  constructor(private wordService: WordService) { }
 
   ngOnInit(): void {
   }
 
   getWords(): string {
-    return "hi"
+    return this.wordService.getWords();
   }
 }
