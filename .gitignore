@@ -44,3 +44,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Generated output
+/dictionary-extraction/5-letter-words.txt
