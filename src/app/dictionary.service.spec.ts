@@ -13,4 +13,8 @@ describe('DictionaryService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should have a whole buncha words', () => {
+    expect(service.getDictionary().length).toBeGreaterThan(5000);
+  });
 });
