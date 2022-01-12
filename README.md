@@ -3,7 +3,7 @@
 ## Chris' Notes
 
 See dictionary-extraction directory for derivation of our word list.
-(Base word list from https://github.com/dwyl/english-words as words.txt)
+(Base word list from ubuntu /usr/share/dict/words )
 
 ## Build & run:
 

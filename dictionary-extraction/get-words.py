@@ -4,7 +4,7 @@ import re
 
 print('Finding and sorting all unique 5 letter words, without symbols...')
 
-valid_words_set = set()  # set to store our unqiue words
+valid_words_set = set()  # set to store our unique words
 
 # Read:
 with open("words.txt", "r") as source:
