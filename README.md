@@ -5,6 +5,14 @@
 See dictionary-extraction directory for derivation of our word list.
 (Base word list from https://github.com/dwyl/english-words as words.txt)
 
+## Build & run:
+
+Uses npm, the angular CLI and python 3.9 for development, but only docker should be needed to build and run from source:
+
+```shell
+docker build -t wordle-solver:latest  .
+docker run -p 80:80 wordle-solver:latest
+```
 
 
 
