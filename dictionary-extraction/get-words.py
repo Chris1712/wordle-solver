@@ -18,7 +18,7 @@ valid_words = sorted(valid_words_set)
 # Write plain:
 with open("5-letter-words.txt", "w") as dest:
     for word in sorted(valid_words):
-        dest.write(f'"{word}",\n')
+        dest.write(f'{word}\n')
 
 
 # Format with quotes:
