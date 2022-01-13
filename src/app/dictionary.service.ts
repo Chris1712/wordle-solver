@@ -132,7 +132,6 @@ export class DictionaryService {
       "album",
       "alcoa",
       "aldan",
-      "alden",
       "alder",
       "alert",
       "aleut",
