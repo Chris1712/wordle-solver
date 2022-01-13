@@ -7,42 +7,7 @@ import {Game} from "./model/game";
 })
 export class WordService {
 
-  // TODO probably we don't need these data structures welp
-
-  // Stores our words in the structure 1 -> 'a' -> ['word1' 'word2']
-  // Keyed by position, then letter, then a list of values (ie position -> letter -> list of words)
-  orderedWords: Record<number, Record<string, string[]>>
-
-  // Stores our words in the structure  'a' -> ['word1' 'word2']
-  // Keyed by letter, then a list of values (ie letter -> list of words)
-  unorderedWords: Record<string, string[]>
-
-  constructor(private dictionaryService: DictionaryService) {
-    this.orderedWords = {
-      0: {},
-      1: {},
-      2: {},
-      3: {},
-      4: {}
-    }
-    this.unorderedWords = {}
-
-    // Iterate through each word and add to our two structures
-    dictionaryService.getDictionary().forEach(word => {
-        for (let i = 0; i < 5; i++) {
-          WordService.addWord(word.charAt(i), word, this.orderedWords[i])
-          WordService.addWord(word.charAt(i), word, this.unorderedWords)
-        }
-      })
-  }
-
-  // Helper method for constructor - add word to record, initialising array if needed
-  private static addWord(letter: string, word: string, record: Record<string, string[]>): void {
-    if (!(letter in record)) {
-      record[letter] = [];
-    }
-    record[letter].push(word)
-  }
+  constructor(private dictionaryService: DictionaryService) {}
 
   // Find the best guess, given the current game state
   public suggestGuess(gameState: Game) {
@@ -105,7 +70,7 @@ export class WordService {
     let letterFrequencies: Map<string, number> = new Map()
     possibleWords.forEach((word => {
       for (let i = 0; i < 5; i++) {
-        // TODO is it ok to give 2 score to o for looks? That makes o better, right?
+        // TODO is it ok to give 2 score to EG o for looks? That makes o better, right?
         let letter: string = word.charAt(i);
         letterFrequencies.set(letter, 1 + (letterFrequencies.get(letter) ?? 0))
       }
