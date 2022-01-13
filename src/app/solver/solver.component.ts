@@ -12,6 +12,8 @@ import {Game} from "../model/game";
 export class SolverComponent implements OnInit {
 
   recommendedGuess: string = "";
+  recommendedGuessText: string = "";
+
   remainingWords: number = 0;
 
   constructor(private wordService: WordService) { }
@@ -40,14 +42,15 @@ export class SolverComponent implements OnInit {
     let wordServiceResponse: [string, number] = this.wordService.suggestGuess(game);
     this.recommendedGuess = wordServiceResponse[0]
     this.remainingWords = wordServiceResponse[1]
+    this.recommendedGuessText = SolverComponent.printGuess(this.recommendedGuess)
   }
 
-  printGuess(): string {
-    if (this.recommendedGuess == "") {
+  static printGuess(guess: string): string {
+    if (guess == "") {
       return "Guess unknown"
     }
     else {
-      return "You should guess '" + this.recommendedGuess + "'";
+      return "You should guess '" + guess + "'";
     }
   }
 
