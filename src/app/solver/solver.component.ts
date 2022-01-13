@@ -29,7 +29,7 @@ export class SolverComponent implements OnInit {
   // Build a game from the valid rows, and submit a guess!
   calcuateGuess() {
     let game = Game.newGame();
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       if (this.guessForms[i].invalid || this.answerForms[i].invalid) {
         console.log(`Gave up at row ${i}`)
         break;
@@ -58,12 +58,12 @@ export class SolverComponent implements OnInit {
     }
   }
 
-  guessForms: FormControl[] = Array(5).fill(0).map(o =>
+  guessForms: FormControl[] = Array(6).fill(0).map(o =>
     new FormControl('',
     [Validators.required, Validators.pattern(/^[A-z]{5}$/)]
     )
   )
-  answerForms: FormControl[] = Array(5).fill(0).map(o =>
+  answerForms: FormControl[] = Array(6).fill(0).map(o =>
     new FormControl('',
       [Validators.required, Validators.pattern(/[byg]{5}/)]
     )
