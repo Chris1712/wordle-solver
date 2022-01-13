@@ -18,48 +18,74 @@ export class WordService {
     return [WordService.pickBestGuessFromList(possibleWords), possibleWords.length]
   }
 
+  // Determine which possible words could be the solution, given our guesses and answers so far
   public static eliminateWords(initialWords: ReadonlyArray<string>, gameState: Game): ReadonlyArray<string> {
     let possibleWords: ReadonlyArray<string> = initialWords;
-    // Iterate backwards through turns to get our information
+    // Iterate backwards through turns to get our information.
+    // Going backwards for efficiency since later guesses likely have more information
     for (let i = gameState.getTurnsTaken()-1; i >= 0; i--) {
       let guessWord: string = gameState.guesses[i]
       let answerWord: string = gameState.answers[i]
 
-      // Iterate through guess/answer this turn
-      for (let pos = 0; pos < 5; pos++) {
-        // TODO handle guesses with the same letter more than once!
+      let guessMap: Map<string, Map<number, string>> = new Map() // letter -> position -> outcome
 
+      // Iterate through guess/answer this turn to build structure of values
+      for (let pos = 0; pos < 5; pos++) {
         let guessLetter: string = guessWord.charAt(pos)
         let answerLetter: string = answerWord.charAt(pos)
 
-        if (answerLetter == 'b') { // Black, IE this letter isn't in the word at all
-          possibleWords = WordService.excludeWordsByLetter(possibleWords, guessLetter)
-        } else if (answerLetter == 'y') { // Yellow, IE this letter IS in the word. But not in this position.
-          possibleWords = WordService.includeWordsByLetter(possibleWords, guessLetter)
-          possibleWords = WordService.excludeWordsByLetterPosition(possibleWords, guessLetter, pos)
-        } else if (answerLetter == 'g') { // Green, IE this letter IS in the word at this position
-          possibleWords = WordService.includeWordsByLetterPosition(possibleWords, guessLetter, pos)
+        if (guessMap.get(guessLetter) == undefined) {
+          guessMap.set(guessLetter, new Map())
+        }
+        // @ts-ignore
+        guessMap.get(guessLetter).set(pos, answerLetter)
+      }
+
+      // Use response structure to filter out possible words
+      for (let [guessLetter, answerMap] of guessMap) {
+
+        let bCount: number = Array.from(answerMap.values()).filter(s => s == 'b').length
+        let yCount: number = Array.from(answerMap.values()).filter(s => s == 'y').length
+        let gCount: number = Array.from(answerMap.values()).filter(s => s == 'g').length
+
+        if (bCount > 0) {
+          // If we have blacks and non-blacks for the same letter, we know the solution must have EXACTLY count(non-blacks) of the letter
+          possibleWords = WordService.onlyWordsWithLetterExactlyTimes(possibleWords, guessLetter, yCount + gCount)
         } else {
-          throw new Error(`Guess ${guessWord} on turn ${i} invalid at position ${pos}`)
+          // All we know is that we must have the letter at least as many times as we guessed it
+          possibleWords = WordService.onlyWordsWithLetterAtLeastTimes(possibleWords, guessLetter, yCount + gCount)
+        }
+
+        for (let [pos, answer] of answerMap) {
+          if (answer == 'g') {
+            possibleWords = WordService.onlyWordsWithLetterInPosition(possibleWords, guessLetter, pos)
+          }
+          if (answer == 't') {
+            possibleWords = WordService.onlyWordsWithoutLetterInPosition(possibleWords, guessLetter, pos)
+          }
         }
       }
     }
     return possibleWords;
   }
 
-  public static includeWordsByLetter(currentList: ReadonlyArray<string>, filterLetter: string): ReadonlyArray<string> {
-    return currentList.filter(word => word.includes(filterLetter))
+  public static onlyWordsWithLetterAtLeastTimes(currentList: ReadonlyArray<string>, filterLetter: string, minCount: number): ReadonlyArray<string> {
+    return currentList.filter(word => (word.split(filterLetter).length-1) >= minCount)
   }
 
-  public static excludeWordsByLetter(currentList: ReadonlyArray<string>, filterLetter: string): ReadonlyArray<string> {
+  public static onlyWordsWithLetterExactlyTimes(currentList: ReadonlyArray<string>, filterLetter: string, count: number): ReadonlyArray<string> {
+    return currentList.filter(word => (word.split(filterLetter).length-1) == count)
+  }
+
+  public static onlyWordsWithoutLetter(currentList: ReadonlyArray<string>, filterLetter: string): ReadonlyArray<string> {
     return currentList.filter(word => !word.includes(filterLetter))
   }
 
-  public static includeWordsByLetterPosition(currentList: ReadonlyArray<string>, filterLetter: string, filterPosition: number): ReadonlyArray<string> {
+  public static onlyWordsWithLetterInPosition(currentList: ReadonlyArray<string>, filterLetter: string, filterPosition: number): ReadonlyArray<string> {
     return currentList.filter(word => word.charAt(filterPosition) == filterLetter)
   }
 
-  public static excludeWordsByLetterPosition(currentList: ReadonlyArray<string>, filterLetter: string, filterPosition: number): ReadonlyArray<string> {
+  public static onlyWordsWithoutLetterInPosition(currentList: ReadonlyArray<string>, filterLetter: string, filterPosition: number): ReadonlyArray<string> {
     return currentList.filter(word => word.charAt(filterPosition) != filterLetter)
   }
 
@@ -87,8 +113,8 @@ export class WordService {
     let remainingGuessable: ReadonlyArray<string> = Array.from(possibleWords);
     // Iterate through the letters, paring down our guessable list
     for (let i = 0; i < letters.length; i++) {
-      if (WordService.includeWordsByLetter(remainingGuessable, letters[i]).length > 0) {
-        remainingGuessable = WordService.includeWordsByLetter(remainingGuessable, letters[i])
+      if (WordService.onlyWordsWithLetterAtLeastTimes(remainingGuessable, letters[i], 1).length > 0) {
+        remainingGuessable = WordService.onlyWordsWithLetterAtLeastTimes(remainingGuessable, letters[i], 1)
       }
     }
     // Any left are equivalent by this metric

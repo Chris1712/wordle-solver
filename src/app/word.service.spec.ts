@@ -40,10 +40,27 @@ describe('WordService', () => {
     it('should play a real game reasonably', () => {
       // wordle 208. 'abbey' is the answer
       let gameAfterTurnOne: Game = Game.newGame().takeTurn("arose", "gbbby")
-      expect(service.suggestGuess(gameAfterTurnOne)[0]).toEqual('abled')
+      expect(service.suggestGuess(gameAfterTurnOne)[0]).toEqual('ailed')
 
-      let gameAfterTurnTwo: Game = gameAfterTurnOne.takeTurn("abled", "ggbgb")
-      expect(service.suggestGuess(gameAfterTurnTwo)[0]).toEqual('abbey')
+      let gameAfterTurnTwo: Game = gameAfterTurnOne.takeTurn("ailed", "gbbgb")
+      expect(service.suggestGuess(gameAfterTurnTwo)[0]).toEqual('axmen')
+
+      let gameAfterTurnThree: Game = gameAfterTurnTwo.takeTurn("axmen", "gbbgb")
+      expect(service.suggestGuess(gameAfterTurnThree)[0]).toEqual('abcee')
+
+      let gameAfterTurnFour: Game = gameAfterTurnThree.takeTurn("abcee", "ggbgb")
+      expect(service.suggestGuess(gameAfterTurnFour)[0]).toEqual('abbey')
+    });
+
+    it('should be able to guess "quake"', () => {
+      let gameAfterManyGuesses: Game = Game.newGame()
+        .takeTurn("aeros", "yybbb")
+        .takeTurn("eland", "ybgbb")
+        .takeTurn("teach", "bygbb")
+        .takeTurn("agape", "bbgbg")
+        .takeTurn("buaze", "bggbg")
+
+      expect(service.suggestGuess(gameAfterManyGuesses)[0]).toEqual('quake')
     });
   });
 
