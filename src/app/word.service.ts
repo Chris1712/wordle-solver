@@ -11,8 +11,15 @@ export class WordService {
 
   // Find the best guess, given the current game state
   public suggestGuess(gameState: Game): [string, number] {
-    let possibleWords: ReadonlyArray<string> = this.dictionaryService.getDictionary();
+    let initialWords: ReadonlyArray<string> = this.dictionaryService.getDictionary();
+    let possibleWords = WordService.eliminateWords(initialWords, gameState)
 
+    // Determine the best guess from this list of possible words
+    return [WordService.pickBestGuessFromList(possibleWords), possibleWords.length]
+  }
+
+  public static eliminateWords(initialWords: ReadonlyArray<string>, gameState: Game): ReadonlyArray<string> {
+    let possibleWords: ReadonlyArray<string> = initialWords;
     // Iterate backwards through turns to get our information
     for (let i = gameState.getTurnsTaken()-1; i >= 0; i--) {
       let guessWord: string = gameState.guesses[i]
@@ -37,9 +44,7 @@ export class WordService {
         }
       }
     }
-
-    // Determine the best guess from this list of possible words
-    return [WordService.pickBestGuessFromList(possibleWords), possibleWords.length]
+    return possibleWords;
   }
 
   public static includeWordsByLetter(currentList: ReadonlyArray<string>, filterLetter: string): ReadonlyArray<string> {

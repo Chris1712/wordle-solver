@@ -19,7 +19,7 @@ describe('WordService', () => {
 
     it('should suggest some word with common letters for a new game', () => {
       let guess: string = service.suggestGuess(Game.newGame())[0]
-      expect(guess).toEqual("arose")
+      expect(guess).toEqual("aeros")
     });
 
     it('should suggest a second word with common letters after the first fails', () => {
@@ -38,12 +38,25 @@ describe('WordService', () => {
     });
 
     it('should play a real game reasonably', () => {
-      // wordle 208
+      // wordle 208. 'abbey' is the answer
       let gameAfterTurnOne: Game = Game.newGame().takeTurn("arose", "gbbby")
-      expect(service.suggestGuess(gameAfterTurnOne)[0]).toEqual('admen')
+      expect(service.suggestGuess(gameAfterTurnOne)[0]).toEqual('abled')
 
-      let gameAfterTurnTwo: Game = gameAfterTurnOne.takeTurn("admen", "gbbgb")
+      let gameAfterTurnTwo: Game = gameAfterTurnOne.takeTurn("abled", "ggbgb")
       expect(service.suggestGuess(gameAfterTurnTwo)[0]).toEqual('abbey')
+    });
+  });
+
+  describe('eliminateWords', () => {
+
+    it('should handle repeated letters', () => {
+      // Here the answer is quake
+      let gameOneTurn: Game = Game.newGame().takeTurn("adage", "bbgbg")
+      let initialWords: ReadonlyArray<string> = ["quake", "crepe", "flang"]
+
+      let possibleWords: ReadonlyArray<string> = WordService.eliminateWords(initialWords, gameOneTurn);
+
+      expect(possibleWords).toEqual(["quake"])
     });
   });
 

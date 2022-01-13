@@ -29,7 +29,7 @@ describe('SolverComponent', () => {
   });
 
   it('should give a default suggestion', () => {
-    expect(fixture.nativeElement.querySelector('#guess').textContent).toEqual("You should guess 'arose'")
+    expect(fixture.nativeElement.querySelector('#guess').textContent).toEqual("You should guess 'aeros'")
   });
 
   it('should give a second suggestion', () => {
@@ -43,8 +43,39 @@ describe('SolverComponent', () => {
     answer0.dispatchEvent(new Event('input'))
     component.inputChanges() // TODO this is a hack should trigger itself
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('#guess').textContent).toEqual("You should guess 'agile'")
+    expect(fixture.nativeElement.querySelector('#guess').textContent).toEqual("You should guess 'aline'")
 
+  });
+
+  it('should give a fourth suggestion for quake', () => {
+    const guess0: HTMLInputElement = fixture.nativeElement.querySelector('#guess-input-0')
+    guess0.value = 'brain'
+    guess0.dispatchEvent(new Event('input'))
+
+    const answer0: HTMLInputElement = fixture.nativeElement.querySelector('#answer-input-0')
+    answer0.value = 'bbgbb'
+    answer0.dispatchEvent(new Event('input'))
+
+    const guess1: HTMLInputElement = fixture.nativeElement.querySelector('#guess-input-1')
+    guess1.value = 'least'
+    guess1.dispatchEvent(new Event('input'))
+
+    const answer1: HTMLInputElement = fixture.nativeElement.querySelector('#answer-input-1')
+    answer1.value = 'bygbb'
+    answer1.dispatchEvent(new Event('input'))
+
+    const guess2: HTMLInputElement = fixture.nativeElement.querySelector('#guess-input-2')
+    guess2.value = 'adage'
+    guess2.dispatchEvent(new Event('input'))
+
+    const answer2: HTMLInputElement = fixture.nativeElement.querySelector('#answer-input-2')
+    answer2.value = 'bbgbg'
+    answer2.dispatchEvent(new Event('input'))
+
+    component.inputChanges() // TODO this is a hack should trigger itself
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('#guess').textContent).not.toEqual("You should guess 'adage'")
+    // TODO spec should specify that we guess something else. I guess 'quake' ideally
   });
 
   it("should show some confetti when there's a 'ggggg' answer", () => {
