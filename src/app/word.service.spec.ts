@@ -101,9 +101,12 @@ describe('WordService', () => {
     });
 
     it('should play a real game reasonably', () => {
-      let gameOneTurn: Game = Game.newGame().takeTurn("arose", "gbbby")
-      expect(service.suggestGuess(gameOneTurn)).toEqual('alden'); // TODO not a word for wordle :<
+      // wordle 208
+      let gameAfterTurnOne: Game = Game.newGame().takeTurn("arose", "gbbby")
+      expect(service.suggestGuess(gameAfterTurnOne)).toEqual('admen');
 
+      let gameAfterTurnTwo: Game = gameAfterTurnOne.takeTurn("admen", "gbbgb")
+      expect(service.suggestGuess(gameAfterTurnTwo)).toEqual('abbey');
     });
   });
 
