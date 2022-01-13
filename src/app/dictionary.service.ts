@@ -8,13 +8,14 @@ import { Injectable } from '@angular/core';
 })
 export class DictionaryService {
 
+  // TODO cope with bad words at runtime
+
   constructor() { }
 
   public getDictionary(): string[] {
     return[
-      // BELOW PASTED FROM 5-letter-words-formatted.txt, see python script in dictionary-extraction
-
-
+      // Below list is auto-generated, see python script in dictionary-extraction
+      // PYTHON SCRIPT POPULATED START
       "aaron",
       "abaci",
       "aback",
@@ -5929,9 +5930,7 @@ export class DictionaryService {
       "zosma",
       "zukor",
       "zulus"
-
-
-      // END PASTED REGION
+      // PYTHON SCRIPT POPULATED END
 
     ]
   }
