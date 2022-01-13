@@ -10,7 +10,7 @@ export class WordService {
   constructor(private dictionaryService: DictionaryService) {}
 
   // Find the best guess, given the current game state
-  public suggestGuess(gameState: Game) {
+  public suggestGuess(gameState: Game): [string, number] {
     let possibleWords: ReadonlyArray<string> = this.dictionaryService.getDictionary();
 
     // Iterate backwards through turns to get our information
@@ -39,7 +39,7 @@ export class WordService {
     }
 
     // Determine the best guess from this list of possible words
-    return WordService.pickBestGuessFromList(possibleWords)
+    return [WordService.pickBestGuessFromList(possibleWords), possibleWords.length]
   }
 
   public static includeWordsByLetter(currentList: ReadonlyArray<string>, filterLetter: string): ReadonlyArray<string> {

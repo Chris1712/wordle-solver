@@ -34,4 +34,15 @@ export class Game {
     return this.guesses.length
   }
 
+  public toString(): string {
+    let out: string = "Game status:\n"
+    if (this.getTurnsTaken() == 0) {
+      out += "No turns taken\n"
+    }
+    for (let i = 0; i < this.getTurnsTaken(); i++) {
+      out += `Turn ${1+i}: guess: ${this.guesses[i]}, answer: ${this.answers[i]}\n`
+    }
+    return out
+  }
+
 }

@@ -18,21 +18,21 @@ describe('WordService', () => {
   describe('suggestGuess', () => {
 
     it('should suggest some word with common letters for a new game', () => {
-      let guess: string = service.suggestGuess(Game.newGame());
+      let guess: string = service.suggestGuess(Game.newGame())[0]
       expect(guess).toEqual("arose")
     });
 
     it('should suggest a second word with common letters after the first fails', () => {
       let gameOneTurn: Game = Game.newGame().takeTurn("arose", "bbbbb")
 
-      let guess: string = service.suggestGuess(gameOneTurn);
+      let guess: string = service.suggestGuess(gameOneTurn)[0]
       expect(guess).toEqual("unity") // No letters from 'arose'
     });
 
     it('should make use of yellow letters', () => {
       let gameOneTurn: Game = Game.newGame().takeTurn("zoool", "ybbbb")
 
-      let guess: string = service.suggestGuess(gameOneTurn);
+      let guess: string = service.suggestGuess(gameOneTurn)[0]
       expect(guess.includes('z')).toBeTrue()
       expect(guess.charAt(0)).not.toEqual('z')
     });
@@ -40,10 +40,10 @@ describe('WordService', () => {
     it('should play a real game reasonably', () => {
       // wordle 208
       let gameAfterTurnOne: Game = Game.newGame().takeTurn("arose", "gbbby")
-      expect(service.suggestGuess(gameAfterTurnOne)).toEqual('admen');
+      expect(service.suggestGuess(gameAfterTurnOne)[0]).toEqual('admen')
 
       let gameAfterTurnTwo: Game = gameAfterTurnOne.takeTurn("admen", "gbbgb")
-      expect(service.suggestGuess(gameAfterTurnTwo)).toEqual('abbey');
+      expect(service.suggestGuess(gameAfterTurnTwo)[0]).toEqual('abbey')
     });
   });
 
