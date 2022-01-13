@@ -15,6 +15,6 @@ export class SolverComponent implements OnInit {
   }
 
   getWords(): string {
-    return this.wordService.getWords();
+    return "";
   }
 }
