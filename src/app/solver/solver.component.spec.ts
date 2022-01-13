@@ -32,7 +32,7 @@ describe('SolverComponent', () => {
     expect(fixture.nativeElement.querySelector('#guess').textContent).toEqual("You should guess 'arose'")
   });
 
-  it('should give a second suggestion', async () => {
+  it('should give a second suggestion', () => {
     // Put in a first guess and answer
     const guess0: HTMLInputElement = fixture.nativeElement.querySelector('#guess-input-0')
     guess0.value = 'arose'
@@ -46,4 +46,19 @@ describe('SolverComponent', () => {
     expect(fixture.nativeElement.querySelector('#guess').textContent).toEqual("You should guess 'agile'")
 
   });
+
+  it("should show some confetti when there's a 'ggggg' answer", () => {
+    // Put in a first guess and answer
+    const guess0: HTMLInputElement = fixture.nativeElement.querySelector('#guess-input-0')
+    guess0.value = 'balds'
+    guess0.dispatchEvent(new Event('input'))
+
+    const answer0  = fixture.nativeElement.querySelector('#answer-input-0')
+    answer0.value = 'ggggg'
+    answer0.dispatchEvent(new Event('input'))
+    component.inputChanges() // TODO this is a hack, should not be needed
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('#guess').textContent).toEqual("🎊🎉🥳🎉🎊")
+  });
+
 });

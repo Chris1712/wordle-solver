@@ -34,6 +34,10 @@ export class Game {
     return this.guesses.length
   }
 
+  public isWon(): boolean {
+    return this.answers.map(a => a == 'ggggg').reduce((acc, next) => acc || next, false)
+  }
+
   public toString(): string {
     let out: string = "Game status:\n"
     if (this.getTurnsTaken() == 0) {

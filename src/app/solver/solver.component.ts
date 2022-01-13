@@ -11,7 +11,6 @@ import {Game} from "../model/game";
 })
 export class SolverComponent implements OnInit {
 
-  recommendedGuess: string = "";
   recommendedGuessText: string = "";
 
   remainingWords: number = 0;
@@ -27,7 +26,7 @@ export class SolverComponent implements OnInit {
     this.calcuateGuess()
   }
 
-  // Build a game form the valid rows, and submit a guess!
+  // Build a game from the valid rows, and submit a guess!
   calcuateGuess() {
     let game = Game.newGame();
     for (let i = 0; i < 5; i++) {
@@ -39,11 +38,16 @@ export class SolverComponent implements OnInit {
       }
     }
     console.log(game.toString())
-    let wordServiceResponse: [string, number] = this.wordService.suggestGuess(game);
-    this.recommendedGuess = wordServiceResponse[0]
-    this.remainingWords = wordServiceResponse[1]
-    this.recommendedGuessText = SolverComponent.printGuess(this.recommendedGuess)
+    if (game.isWon()) {
+      this.recommendedGuessText = "🎊🎉🥳🎉🎊"
+      this.remainingWords = 0;
+    } else {
+      let wordServiceResponse: [string, number] = this.wordService.suggestGuess(game);
+      this.remainingWords = wordServiceResponse[1]
+      this.recommendedGuessText = SolverComponent.printGuess(wordServiceResponse[0])
+    }
   }
+
 
   static printGuess(guess: string): string {
     if (guess == "") {

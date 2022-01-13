@@ -4,7 +4,7 @@
 <div>
   <p *ngFor="let item of [].constructor(5); let i = index">
     Guess {{1+i}}: <input type="text" id="guess-input-{{i}}" [formControl]="guessForms[i]" (change)="inputChanges()" [style.border-color]="guessForms[i].invalid ? '' : 'green'">
-    Answers {{1+i}}: <input type="text" id="answer-input-{{i}}" [formControl]="answerForms[i]" (change)="inputChanges()" [style.border-color]="answerForms[i].invalid ? '' : 'green'">
+    Answer {{1+i}}: <input type="text" id="answer-input-{{i}}" [formControl]="answerForms[i]" (change)="inputChanges()" [style.border-color]="answerForms[i].invalid ? '' : 'green'">
     <br><br>
   </p>
 </div>
