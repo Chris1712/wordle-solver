@@ -60,7 +60,7 @@ export class WordService {
           if (answer == 'g') {
             possibleWords = WordService.onlyWordsWithLetterInPosition(possibleWords, guessLetter, pos)
           }
-          if (answer == 't') {
+          if (answer == 'y') {
             possibleWords = WordService.onlyWordsWithoutLetterInPosition(possibleWords, guessLetter, pos)
           }
         }

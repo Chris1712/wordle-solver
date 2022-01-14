@@ -40,16 +40,10 @@ describe('WordService', () => {
     it('should play a real game reasonably', () => {
       // wordle 208. 'abbey' is the answer
       let gameAfterTurnOne: Game = Game.newGame().takeTurn("arose", "gbbby")
-      expect(service.suggestGuess(gameAfterTurnOne)[0]).toEqual('ailed')
+      expect(service.suggestGuess(gameAfterTurnOne)[0]).toEqual('abled')
 
-      let gameAfterTurnTwo: Game = gameAfterTurnOne.takeTurn("ailed", "gbbgb")
-      expect(service.suggestGuess(gameAfterTurnTwo)[0]).toEqual('axmen')
-
-      let gameAfterTurnThree: Game = gameAfterTurnTwo.takeTurn("axmen", "gbbgb")
-      expect(service.suggestGuess(gameAfterTurnThree)[0]).toEqual('abcee')
-
-      let gameAfterTurnFour: Game = gameAfterTurnThree.takeTurn("abcee", "ggbgb")
-      expect(service.suggestGuess(gameAfterTurnFour)[0]).toEqual('abbey')
+      let gameAfterTurnTwo: Game = gameAfterTurnOne.takeTurn("abled", "ggbgb")
+      expect(service.suggestGuess(gameAfterTurnTwo)[0]).toEqual('abbey')
     });
 
     it('should be able to guess "quake"', () => {
@@ -61,6 +55,13 @@ describe('WordService', () => {
         .takeTurn("buaze", "bggbg")
 
       expect(service.suggestGuess(gameAfterManyGuesses)[0]).toEqual('quake')
+    });
+
+    it('should not guess a yellow in the same position', () => {
+      let game: Game = Game.newGame()
+        .takeTurn("manty", "bggyg") // This tells us the T must be in pos 0
+
+      expect(service.suggestGuess(game)[0]).toEqual('tangy')
     });
   });
 
