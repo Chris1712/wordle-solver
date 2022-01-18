@@ -37,8 +37,7 @@ export class WordService {
         if (guessMap.get(guessLetter) == undefined) {
           guessMap.set(guessLetter, new Map())
         }
-        // @ts-ignore
-        guessMap.get(guessLetter).set(pos, answerLetter)
+        guessMap.get(guessLetter)!.set(pos, answerLetter)
       }
 
       // Use response structure to filter out possible words

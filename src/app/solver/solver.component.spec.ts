@@ -75,7 +75,6 @@ describe('SolverComponent', () => {
     component.inputChanges() // TODO this is a hack should trigger itself
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('#guess').textContent).not.toEqual("You should guess 'adage'")
-    // TODO spec should specify that we guess something else. I guess 'quake' ideally
   });
 
   it("should show some confetti when there's a 'ggggg' answer", () => {
