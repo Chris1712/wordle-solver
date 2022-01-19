@@ -3,6 +3,7 @@ export class Answerer {
 
   private readonly solution: string
   public guesses: number
+  public isSolved: boolean = false
 
   constructor(solution: string) {
     this.solution = solution
@@ -12,6 +13,9 @@ export class Answerer {
   public takeGuess(guessWord: string): string {
     if (guessWord.length != this.solution.length) {
       throw new Error("Guess is incorrect length")
+    }
+    if (this.isSolved) {
+      throw new Error("Answer already foun")
     }
     this.guesses++
 
@@ -52,6 +56,10 @@ export class Answerer {
         solutionList[solutionList.findIndex(l => l == guessLetter)] = ''
         positions.shift()
       }
+    }
+
+    if (response.every(l => l == 'g')) {
+      this.isSolved = true
     }
 
     return response.join('')

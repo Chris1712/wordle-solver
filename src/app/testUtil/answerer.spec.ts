@@ -1,4 +1,3 @@
-import {} from "./game";
 import {Answerer} from "./answerer";
 
 describe('Game', () => {

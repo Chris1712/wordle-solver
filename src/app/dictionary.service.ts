@@ -8,8 +8,6 @@ import { Injectable } from '@angular/core';
 })
 export class DictionaryService {
 
-  // TODO cope with bad words at runtime
-
   constructor() { }
 
   public getDictionary(): string[] {
