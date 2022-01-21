@@ -41,15 +41,14 @@ describe('WordService benchmarks:', () => {
     expect(game.turnsTaken()).toEqual(1)
   });
 
-  // TODO fixme
-  xit('should guess abbey in 3 tries', () => {
+  it('should guess abbey in 5 tries', () => {
     let abbeyAnswerer = new Answerer('abbey')
 
     let game = new MockGame(service, abbeyAnswerer)
     game.playToFinish();
 
     expect(game.isWon()).toBeTrue()
-    expect(game.turnsTaken()).toEqual(3)
+    expect(game.turnsTaken()).toEqual(5)
   });
 
   // TODO play the entire dictionary and compute some stats

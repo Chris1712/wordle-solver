@@ -42,13 +42,15 @@ export class Answerer {
       while (solutionList.includes(guessLetter) && positions.length > 0) {
         if(positions.some(p => solutionList[p] == guessLetter)) {
           // Exact match
+          let greenPositions: number[] = []
           positions
             .filter(p => solutionList[p] == guessLetter)
             .forEach(p => {
               response[p] = 'g'
               solutionList[p] = ''
+              greenPositions.push(p)
             })
-          positions = positions.filter(p => solutionList[p] != guessLetter)
+          positions = positions.filter(p => !greenPositions.includes(p))
           continue
         }
         // solutionsList includes letter, but no exact matches. So set first guessed position as yellow, and remove from solutionList

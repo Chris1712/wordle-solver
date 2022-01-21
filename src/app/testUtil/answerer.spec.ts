@@ -1,6 +1,6 @@
 import {Answerer} from "./answerer";
 
-describe('Game', () => {
+describe('Answerer', () => {
 
   it('should answer a bad guess with bbbbb', () => {
     let guessAnswerer = new Answerer("guess")
@@ -30,6 +30,12 @@ describe('Game', () => {
     let guessAnswerer = new Answerer("guess")
 
     expect(guessAnswerer.takeGuess("saaaa")).toEqual("ybbbb")
+  });
+
+  it('should correctly answer "abcee" for "abbey"', () => {
+    let abbeyAnswerer = new Answerer("abbey")
+
+    expect(abbeyAnswerer.takeGuess("abcee")).toEqual("ggbgb")
   });
 
   describe('when evaluating guesses with repeated letters', () => {
