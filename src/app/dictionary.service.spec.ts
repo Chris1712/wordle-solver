@@ -14,7 +14,7 @@ describe('DictionaryService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should have a whole buncha words', () => {
-    expect(service.getDictionary().length).toBeGreaterThan(5000);
+  it('should hold 12972 words', () => {
+    expect(service.getDictionary().length).toEqual(12972);
   });
 });

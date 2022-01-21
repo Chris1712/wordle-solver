@@ -2,8 +2,11 @@
 
 ## Chris' Notes
 
-See dictionary-extraction directory for derivation of our word list.
-(Base word list from collins NA scrabble dictionary)
+See dictionary-extraction directory for derivation of our word list, which is automatically pushed into dictionary service source code.
+
+Base word list `dictionary-extraction/words.txt` is from collins NA scrabble dictionary.
+
+Frequency stats `unigram_freq.csv` is from the Google Web Trillion Word Corpus, via kaggle.
 
 ### Build & run:
 
