@@ -18,8 +18,8 @@ export class MockGame {
       let response: string = this.answerer.takeGuess(guess)
       // Update our game
       this.game = this.game.takeTurn(guess, response)
-      console.log(`Turn ${this.game.getTurnsTaken()} completed:`)
-      console.log(this.game.toString());
+      // console.log(`Turn ${this.game.getTurnsTaken()} completed:`)
+      // console.log(this.game.toString());
     }
   }
 
