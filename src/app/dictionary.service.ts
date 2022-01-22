@@ -10,10 +10,20 @@ export class DictionaryService {
 
   constructor() { }
 
+  // Return all guessable 5-letter words
   public getDictionary(): string[] {
     return Array.from(this.getWordFreqs().keys());
   }
 
+  // return top n words when ordered by usage
+  public getTopWords(count: number): string[] {
+    return [...this.getWordFreqs().entries()]
+      .sort( (e1, e2) => e2[1] - e1[1])
+      .map(e => e[0])
+      .slice(0, count)
+  }
+
+  // Return map of word -> usage coun
   public getWordFreqs(): Map<string, number> {
 
     return new Map([ // Map from word -> freq
